@@ -18,9 +18,15 @@
 
 import subprocess
 import os
+from datetime import datetime
 
+# Default binary name for the bouncer's exectuable
 ZNC_BINARY_FILE = 'znc'
-ZNC_EXECUTABLE_LOCATION = '/usr/bin/znc'
+# Default directory for ZNC executable binary to be located in
+ZNC_EXECUTABLE_LOCATION = '/usr/bin/'
+
+# Default log file path (in /tmp/)
+LOG_PATH = '/tmp/zncmonitor_log.py'
 
 
 def process_is_running(name=ZNC_BINARY_FILE):
@@ -45,12 +51,18 @@ def execute_process(process=ZNC_BINARY_FILE, workdir=ZNC_EXECUTABLE_LOCATION):
     else:
         execpath = process
 
-    # noinspection PyBroadException
-    try:
-        fnull = open(os.devnull, 'w')
-        subprocess.call(execpath, stdout=fnull, stderr=subprocess.STDOUT)
-    except Exception:
-        print "Errored out running ZNC.  Run manually."
+    logfile = open(LOG_PATH, 'a')
+    logfile.write("[%s] Attempting to launch process..." %
+                  datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+    if os.path.exists(execpath) and os.path.isfile(execpath):
+        # noinspection PyBroadException
+        try:
+            subprocess.call(execpath, stdout=logfile, stderr=logfile)
+        except Exception:
+            print "Errored out running ZNC; log file at %s may have details" % LOG_PATH
+    else:
+        logfile.write("[%s] Cannot find process to execute, please check file paths." %
+                      datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
 
 def main():
