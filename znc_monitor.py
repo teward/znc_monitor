@@ -52,19 +52,15 @@ def execute_process(process=ZNC_BINARY_FILE, workdir=ZNC_EXECUTABLE_LOCATION):
         execpath = process
 
     logfile = open(LOG_PATH, 'a')
-    printstr = "[%s] Attempting to launch process..." \
-               % datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    print printstr
-    logfile.write(printstr)
+    logfile.write("[%s] Attempting to launch process..." %
+                  datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     if os.path.exists(execpath) and os.path.isfile(execpath):
         # noinspection PyBroadException
         try:
             subprocess.call(execpath, stdout=logfile, stderr=logfile)
         except Exception:
-            print "[%s] Errored out running ZNC; log file at %s may have details" % \
-                  (datetime.now().strftime('%Y-%m-%d %H:%M:%S'), LOG_PATH)
+            print "Errored out running ZNC; log file at %s may have details" % LOG_PATH
     else:
-        print
         logfile.write("[%s] Cannot find process to execute, please check file paths." %
                       datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
@@ -75,8 +71,6 @@ def main():
             execute_process(workdir=ZNC_EXECUTABLE_LOCATION, process=ZNC_BINARY_FILE)
         else:
             return
-        print "[%s] Completed, ZNC should be launched now." % \
-              datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     except Exception as e:
         print "Error: %s" % str(e)
 
