@@ -1,8 +1,6 @@
 # ZNC Monitor / Launching Script
 
-This script, released under the GNU AFFERO GENERAL PUBLIC LICENSE v3,
-is a Python 2.7 script designed to be used with Cron to monitor if ZNC
-is running, and if it is not, run it.
+This script is a Python 2.7 script designed to be used with Cron to monitor if ZNC is running, and if it is not, run it.
 
 To use it:
 
@@ -20,4 +18,6 @@ To use it:
 
     (use `python2` if your default Python is Python3).
     
-That's it!
+That's it!  Not too complicated!
+
+Contributions are welcome, please use a pull request to propose changes.  Changes must be in Git.  Changes must also be explained.
